@@ -37,7 +37,7 @@ const options = {
             },
             grade_level: {
                 type: "string",
-                example: "5th Grade"
+                example: 5
                 // Add grade_level for student role
           },
           child_ids: {
