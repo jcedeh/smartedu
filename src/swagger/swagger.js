@@ -7,13 +7,70 @@ const options = {
     info: {
       title: "Auth API",
       version: "1.0.0",
-      description: "API for user registration and login",
     },
     servers: [
-      { url: "https://smartedu-cu15.onrender.com/" } // replace with your Render URL
-    ]
+      { url: "https://smartedu-cu15.onrender.com" }
+    ],
+
+    components: {
+      schemas: {
+        RegisterUser: {
+          type: "object",
+          required: ["email", "password", "role"],
+          properties: {
+            email: {
+              type: "string",
+              example: "student@example.com"
+            },
+            password: {
+              type: "string",
+              example: "StrongPassword123"
+            },
+            role: {
+              type: "string",
+              enum: ["student", "parent"],
+              example: "student"
+            }
+          }
+        },
+
+        LoginUser: {
+          type: "object",
+          required: ["email", "password"],
+          properties: {
+            email: {
+              type: "string",
+              example: "student@example.com"
+            },
+            password: {
+              type: "string",
+              example: "StrongPassword123"
+            }
+          }
+        },
+
+        AuthResponse: {
+          type: "object",
+          properties: {
+            token: {
+              type: "string",
+              example: "jwt.token.here"
+            },
+            user: {
+              type: "object",
+              properties: {
+                email: { type: "string" },
+                role: { type: "string" },
+                isActive: { type: "boolean" }
+              }
+            }
+          }
+        }
+      }
+    }
   },
-  apis: ["./routes/*.js"], // Swagger comments in routes
+
+  apis: ["./routes/*.js"]
 };
 
 const swaggerSpec = swaggerJsdoc(options);

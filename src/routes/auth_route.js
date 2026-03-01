@@ -7,12 +7,6 @@ import {
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { is_student } from "../middlewares/role_authorization.js";
 import { route_rate_limit } from "../middlewares/rate_limit_middleware.js";
-import { 
-        RegisterUserSchema, 
-        LoginUserSchema, 
-        RegisterResponseSchema, 
-        LoginResponseSchema 
-    } from "../swagger/schemas.js";
 import express from 'express'
 
 const router = express.Router();
@@ -42,45 +36,38 @@ router.get('/test', auth_middleware, is_student('student'), (req, res)=> {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '../swagger/schemas.js#/RegisterUserSchema'
+ *             $ref: '#/components/schemas/RegisterUser'
  *     responses:
  *       201:
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '../swagger/schemas.js#/RegisterResponseSchema'
+ *         description: User registered successfully
  */
 router.post("/register", (req, res) => {
-  // Your register logic here
-  res.status(201).json({ message: "User registered successfully", userId: "64f123abc..." });
+  res.status(201).json({ message: "User registered" });
 });
 
 /**
  * @swagger
  * /auth/login:
  *   post:
- *     summary: Login a user
+ *     summary: Login user
  *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '../swagger/schemas.js#/LoginUserSchema'
+ *             $ref: '#/components/schemas/LoginUser'
  *     responses:
  *       200:
  *         description: Login successful
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '../swagger/schemas.js#/LoginResponseSchema'
+ *               $ref: '#/components/schemas/AuthResponse'
  */
 router.post("/login", (req, res) => {
-  // Your login logic here
-  res.json({ token: "jwt-token-here", user: { email: "student@example.com", role: "student", isActive: true } });
+  res.json({ token: "jwt.token.here" });
 });
-
 
 
 export default router;

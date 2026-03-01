@@ -3,7 +3,7 @@ import auth_route from './src/routes/auth_route.js';
 import { errorHandler } from './src/middlewares/error_handler.js';
 import { cors_middleware } from './src/middlewares/cors_middleware.js';
 import {api_rate_limit} from './src/middlewares/rate_limit_middleware.js';
-import swaggerUi, { swaggerUiSetup } from './src/config/swagger.js';
+import swaggerUi, { swaggerUiSetup } from './src/swagger/swagger.js';
 
 const app  = express();
 
