@@ -30,7 +30,22 @@ const options = {
               type: "string",
               enum: ["student", "parent"],
               example: "student"
-            }
+            },
+            name: {
+                type: "string",
+                example: "John Doe"
+            },
+            grade_level: {
+                type: "string",
+                example: "5th Grade"
+                // Add grade_level for student role
+          },
+          child_ids: {
+            type: "array",
+            items: {
+              type: "string"            },
+            example: ["child_id_1", "child_id_2"]
+          } // Add child_ids for parent role
           }
         },
 
@@ -60,8 +75,7 @@ const options = {
               type: "object",
               properties: {
                 email: { type: "string" },
-                role: { type: "string" },
-                isActive: { type: "boolean" }
+                role: { type: "string" }
               }
             }
           }

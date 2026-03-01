@@ -10,9 +10,9 @@ import { sendMail } from "./nodemailer.js";
 dotenv.config();
 
 export const register_service = async (data)=> {
-    const {email, password, role, first_name, grade_level, child_ids} = data;
+    const {email, password, role, name, grade_level, child_ids} = data;
     //validate input
-    if(!email||!password||!role|| !first_name || !grade_level||!child_ids) {
+    if(!email||!password||!role|| !name || !grade_level||!child_ids) {
         throw new AppError("all fields are required", 400);
     }
     //check if user exists
@@ -37,10 +37,10 @@ export const register_service = async (data)=> {
             throw new AppError("gradelevel field required", 400)
         }
         await Student.create(
-            {   user_id: User._id,
-                first_name: first_name,
+            {   user_id: user._id,
+                name: name,
                 grade_level: grade_level
-            }
+            }  
         )
     }
     if(role === "parent") {
@@ -49,8 +49,8 @@ export const register_service = async (data)=> {
         }
         await Parent.create(
             {
-                user_id: User._id,
-                first_name: first_name,
+                user_id: user._id,
+                name: name,
                 child_ids: child_ids
             }
         )

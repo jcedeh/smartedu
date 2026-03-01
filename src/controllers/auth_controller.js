@@ -9,8 +9,8 @@ import { catchAsync } from "../utils/catchAsync.js";
 
     //register controller
     export const register = catchAsync(async(req, res)=> {
-         const {email, password, role, first_name, grade_level, child_ids} = req.body;
-         const new_user = await register_service({email, password, role, first_name, grade_level, child_ids});
+         const {email, password, role, name, grade_level, child_ids} = req.body;
+         const new_user = await register_service({email, password, role, name, grade_level, child_ids});
          return res.status(201).json({message: "success", data: 
             {
                 id: new_user._id,
