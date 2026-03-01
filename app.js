@@ -4,6 +4,7 @@ import { errorHandler } from './src/middlewares/error_handler.js';
 import { cors_middleware } from './src/middlewares/cors_middleware.js';
 import {api_rate_limit} from './src/middlewares/rate_limit_middleware.js';
 import swaggerUi, { swaggerUiSetup } from './src/swagger/swagger.js';
+import cors from 'cors';
 
 const app  = express();
 
@@ -15,7 +16,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUiSetup);
 
 
 //enable CORS
-app.use(cors_middleware);
+app.use(cors); 
+//app.use(cors_middleware);
 
 //apply api rate limit
 app.use(api_rate_limit);

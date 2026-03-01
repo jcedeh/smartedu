@@ -29,7 +29,7 @@ router.get('/test', auth_middleware, is_student('student'), (req, res)=> {
  * @swagger
  * /auth/register:
  *   post:
- *     summary: Register a new user
+ *     summary: Register a new user {student(grade level compulsory) or parent(child ids compulsory)}
  *     tags: [Auth]
  *     requestBody:
  *       required: true
