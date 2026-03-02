@@ -41,9 +41,6 @@ router.get('/test', auth_middleware, is_student('student'), (req, res)=> {
  *       201:
  *         description: User registered successfully
  */
-router.post("/register", (req, res) => {
-  res.status(201).json({ message: "User registered" });
-});
 
 /**
  * @swagger
@@ -65,14 +62,10 @@ router.post("/register", (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
  */
-router.post("/login", (req, res) => {
-  res.json({ token: "jwt.token.here" });
-});
-
 
 /**
  * @swagger
- * /auth/forgot-password:
+ * /auth/password-forget:
  *   post:
  *     summary: Request password reset
  *     description: Sends a password reset OTP or link to the user's email
@@ -95,17 +88,12 @@ router.post("/login", (req, res) => {
  *       404:
  *         description: User not found
  */
-router.post("/password-forget", (req, res) => {
-  res.json({ message: "Password reset email sent" });
-}); 
-
-
 
 
 /**
  * @swagger
- * /auth/reset-password:
- *   post:
+ * /auth/password-reset:
+ *   put:
  *     summary: Reset user password
  *     description: Resets password using OTP or reset token
  *     tags: [Auth]
@@ -135,9 +123,6 @@ router.post("/password-forget", (req, res) => {
  *       400:
  *         description: Invalid or expired OTP
  */
-router.put("/password-reset", (req, res) => {
-  res.json({ message: "Password reset successful" });
-});
 
 
 export default router;
