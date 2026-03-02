@@ -29,7 +29,7 @@ router.get('/test', auth_middleware, is_student('student'), (req, res)=> {
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Register a new user {student(grade level compulsory) or parent(child ids compulsory)}
+ *     summary: Register a new user (teacher or student)
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -105,7 +105,7 @@ router.post("/password-forget", (req, res) => {
 /**
  * @swagger
  * /api/auth/reset-password:
- *   post:
+ *   put:
  *     summary: Reset user password
  *     description: Resets password using OTP or reset token
  *     tags: [Auth]
