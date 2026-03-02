@@ -56,7 +56,7 @@ export const register_service = async (data)=> {
         )
     }
 
-    
+    /** 
         //send email
         await sendMail({
         to: email,
@@ -66,7 +66,7 @@ export const register_service = async (data)=> {
             your user id is ${user._id}
             `,
         });
-        
+      */  
     return user;
     }
 
