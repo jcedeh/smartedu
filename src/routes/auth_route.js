@@ -41,7 +41,7 @@ router.get('/test', auth_middleware, is_student('student'), (req, res)=> {
  *       201:
  *         description: User registered successfully
  */
-router.post("/api/auth/register", (req, res) => {
+router.post("/register", (req, res) => {
   res.status(201).json({ message: "User registered" });
 });
 
@@ -65,8 +65,78 @@ router.post("/api/auth/register", (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
  */
-router.post("/api/auth/login", (req, res) => {
+router.post("/login", (req, res) => {
   res.json({ token: "jwt.token.here" });
+});
+
+
+/**
+ * @swagger
+ * /auth/forgot-password:
+ *   post:
+ *     summary: Request password reset
+ *     description: Sends a password reset OTP or link to the user's email
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Password reset email sent
+ *       404:
+ *         description: User not found
+ */
+router.post("/password-forget", (req, res) => {
+  res.json({ message: "Password reset email sent" });
+}); 
+
+
+
+
+/**
+ * @swagger
+ * /auth/reset-password:
+ *   post:
+ *     summary: Reset user password
+ *     description: Resets password using OTP or reset token
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *               - newPassword
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               otp:
+ *                 type: number
+ *                 example: 123456
+ *               newPassword:
+ *                 type: string
+ *                 example: NewStrongPassword123
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *       400:
+ *         description: Invalid or expired OTP
+ */
+router.put("/password-reset", (req, res) => {
+  res.json({ message: "Password reset successful" });
 });
 
 
