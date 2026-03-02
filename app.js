@@ -16,8 +16,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUiSetup);
 
 
 //enable CORS
-app.use(cors); 
-//app.use(cors_middleware);
+app.use(cors_middleware);
 
 //apply api rate limit
 app.use(api_rate_limit);
