@@ -41,7 +41,7 @@ router.get('/test', auth_middleware, is_student('student'), (req, res)=> {
  *       201:
  *         description: User registered successfully
  */
-router.post("/register", (req, res) => {
+router.post("/api/auth/register", (req, res) => {
   res.status(201).json({ message: "User registered" });
 });
 
@@ -65,7 +65,7 @@ router.post("/register", (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
  */
-router.post("/login", (req, res) => {
+router.post("/api/auth/login", (req, res) => {
   res.json({ token: "jwt.token.here" });
 });
 
