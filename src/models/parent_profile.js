@@ -9,7 +9,7 @@ const parentSchema = new mongoose.Schema(
             ref: "User"
             
         },
-        first_name: {
+        name: {
             type: String,
             required: true 
         },

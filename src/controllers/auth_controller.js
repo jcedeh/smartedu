@@ -42,3 +42,4 @@ import { catchAsync } from "../utils/catchAsync.js";
         await reset_password_service({otp, new_password});
         return res.status(200).json({message: "password reset successfully"});
     })
+

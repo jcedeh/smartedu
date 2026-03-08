@@ -1,4 +1,4 @@
-export const is_student = (...roles)=> {
+export const roleAuthorization = (...roles)=> {
    try{
      return (req, res, next)=> {
         if(!roles.includes(req.user.role)) {

@@ -8,6 +8,11 @@ const PORT = process.env.PORT
 //connect database
 connectDB();
 
+console.log('=== ENV DEBUG ===');
+console.log('MONGO_URL:', process.env.MONGO_URL);
+console.log('PORT:', process.env.PORT);
+console.log('=================');
+
 
 
 //create server

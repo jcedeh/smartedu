@@ -10,10 +10,14 @@ import { sendMail } from "./nodemailer.js";
 dotenv.config();
 
 export const register_service = async (data)=> {
-    const {full_name, email, password, role} = data;
+    const {first_name, last_name, email, password, confirm_password, role} = data;
     //validate input
-    if(!full_name || !email || !password || !role) {
+    if(!first_name || !last_name || !email || !password || !confirm_password || !role) {
         throw new AppError("all fields are required", 400);
+    }
+    //validate password and confirm password
+    if(password !== confirm_password) {
+        throw new AppError("password and confirm password do not match", 400);
     }
     //check if user exists
     const existingUser = await User.findOne({email});
@@ -26,8 +30,11 @@ export const register_service = async (data)=> {
     //create the user
     const user = await User.create(
         {
+            first_name: first_name,
+            last_name: last_name,
             email: email,
             password: hashedPassword,
+            confirm_password: hashedPassword,
             role: role
         }
     );
@@ -57,16 +64,19 @@ export const login_service = async (data)=> {
     }
     //check if user exists
     const existing_user = await User.findOne({email});
-    if(!existing_user) {
-        throw new AppError("email or password not correct", 401)
+    if(!existing_user || !existing_user.isActive) {
+        throw new AppError("email or password not valid", 401)
     }
     //validate password
     const is_match = await bcrypt.compare(password, existing_user.password);
     if(!is_match) {
-        throw new AppError("email or password not correct", 401)
+        throw new AppError("email or password not valid", 401)
     }
     const token = jwt.sign(
         {   id: existing_user._id,
+            first_name: existing_user.first_name,
+            last_name: existing_user.last_name,
+            email: existing_user.email,
             role: existing_user.role
         },
         process.env.JWT_SECRET,
@@ -99,7 +109,7 @@ export const forget_password_service = async (data)=> {
         await user.save();
           
         //send email
-        await sendMail({
+      /*  await sendMail({
         to: email,
         subject: "Reset Password",
         html: `
@@ -107,6 +117,7 @@ export const forget_password_service = async (data)=> {
             <p>your OTP is ${user.otp}</p>
             `,
         });
+        */
 
         return otp;
         
