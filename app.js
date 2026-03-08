@@ -1,9 +1,11 @@
 import express from 'express';
 import auth_route from './src/routes/auth_route.js';
+import question_route from './src/routes/question_route.js';
 import { errorHandler } from './src/middlewares/error_handler.js';
 import { cors_middleware } from './src/middlewares/cors_middleware.js';
 import {api_rate_limit} from './src/middlewares/rate_limit_middleware.js';
 import swaggerUi, { swaggerUiSetup } from './swagger/swagger.js';
+import attempt_route from './src/routes/attempt_route.js';
 import cors from 'cors';
 
 const app  = express();
@@ -28,6 +30,8 @@ app.get('/health', (req, res) => {
 
 //include routes
 app.use('/api/auth', auth_route);
+app.use('/api/questions', question_route);
+app.use('/api/quiz', attempt_route);
 
 // Global error handling middleware
 app.use(errorHandler);
