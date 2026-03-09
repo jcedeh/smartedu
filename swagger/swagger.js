@@ -16,11 +16,15 @@ const options = {
       schemas: {
         RegisterUser: {
           type: "object",
-          required: ["full_name", "email", "password", "role"],
+          required: ["first_name", "last_name", "email", "password", "confirm_password", "role"],
           properties: {
-            full_name: {
+            first_name: {
                 type: "string",
-                example: "John Doe"
+                example: "John"
+            },
+            last_name: {
+                type: "string",
+                example: "Doe"
             },
             email: {
               type: "string",
@@ -30,6 +34,10 @@ const options = {
               type: "string",
               example: "StrongPassword123"
             },
+            confirm_password: {
+              type: "string",
+              example: "StrongPassword123"
+            },  
             role: {
               type: "string",
               enum: ["student", "parent"],
@@ -53,6 +61,41 @@ const options = {
           }
         },
 
+        attempts: {
+          type: "object",
+          required: ["student_id", "quiz_id", "answers", "time_spent"],
+          properties: {
+            student_id: {
+              type: "string",
+              example: "65f1a6b9a23b4c001f1c1234"
+            },
+            quiz_id: {
+              type: "string",
+              example: "65f1a6b9a23b4c001f1c5678"
+            },
+            answers: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  questionId: {
+                    type: "string",
+                    example: "65f1a6b9a23b4c001f1c9999"
+                  },
+                  selectedOptionId: {
+                    type: "string",
+                    example: "65f1a6b9a23b4c001f1c8888"
+                  }
+                }
+              }
+            },
+            time_spent: {
+              type: "number",
+              example: 120
+            }
+          }
+        },    
+
         AuthResponse: {
           type: "object",
           properties: {
@@ -72,6 +115,12 @@ const options = {
       }
     }
   },
+
+    security: [
+      {
+        bearerAuth: []
+      }
+    ],
 
   apis: ["./src/routes/*.js"]
 };
