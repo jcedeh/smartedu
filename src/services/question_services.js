@@ -4,7 +4,7 @@ import { AppError } from "../utils/AppError.js";
 //CREATE
 export const create_question = async (data) => {
   const exists = await Question.findOne({
-    text: { $regex: `^${data.text}$`, $options: "i" }
+    question: { $regex: `^${data.question}$`, $options: "i" }
   });
 
   if (exists) {

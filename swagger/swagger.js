@@ -13,6 +13,13 @@ const options = {
     ],
 
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT"
+        }
+      },
       schemas: {
         RegisterUser: {
           type: "object",
@@ -116,11 +123,7 @@ const options = {
     }
   },
 
-    security: [
-      {
-        bearerAuth: []
-      }
-    ],
+  
 
   apis: ["./src/routes/*.js"]
 };

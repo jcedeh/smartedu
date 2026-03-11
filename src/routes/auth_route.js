@@ -2,7 +2,8 @@ import {
         register, 
         login,
         forgot_password,
-        reset_password
+        reset_password,
+        activate_account
 } from "../controllers/auth_controller.js";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { roleAuthorization } from "../middlewares/role_authorization.js";
@@ -15,6 +16,7 @@ router.post('/register', route_rate_limit, register);
 router.post('/login', route_rate_limit, login);
 router.post('/password-forget', route_rate_limit, forgot_password);
 router.put('/password-reset', route_rate_limit, reset_password);
+router.post('/activate-account', route_rate_limit, activate_account);
 
 router.get('/test', auth_middleware, roleAuthorization('student'), (req, res)=> {
     res.send("auth route is working");
@@ -138,5 +140,7 @@ router.post("/password-forget", (req, res) => {
 router.put("/password-reset", (req, res) => {
   res.json({ message: "Password reset successful" });
 });
+
+
 export default router;
 
