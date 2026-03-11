@@ -1,35 +1,18 @@
-import Student from './student_profile.js';
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import Student from "./student_profile.js";
 
-const studentPerformanceSchema = new mongoose.Schema({
-    studentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
-        required: true
-    },
-    topic: {
-        type: String,
-        required: true
-    },
-    correct_answers: {
-        type: Number,
-        default: 0
-    },
-    total_questions: {
-        type: Number,
-        default: 0
-    },
-    accuracy: {
-        type: Number,
-        default: 0   //correct_answers / total_questions
-    }
-})
+const topicPerformanceSchema = new mongoose.Schema({
+  studentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Student"
+  },
+  subject: String,
+  topic: String,
+  correctAnswers: Number,
+  totalQuestions: Number,
+  accuracy: Number,
+  isWeak: Boolean
+});
 
-
-topicPerformanceSchema.index(
-  { studentId: 1, topic: 1 },
-  { unique: true }
-);
-
-const studentPerformance = mongoose.model('StudentPerformance', studentPerformanceSchema);
-export default studentPerformance;
+const TopicPerformance = mongoose.model('TopicPerformance', topicPerformanceSchema);
+export default TopicPerformance;

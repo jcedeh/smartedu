@@ -2,15 +2,24 @@ import {
         register_service, 
         login_service,
         forget_password_service,
-        reset_password_service
+        reset_password_service,
+        activate_account_service
     } from "../services/auth_services.js";
 import { catchAsync } from "../utils/catchAsync.js";
 
 
     //register controller
     export const register = catchAsync(async(req, res)=> {
-         const {full_name, email, password, role} = req.body;
-         const new_user = await register_service({full_name, email, password, role});
+         const {first_name, last_name, email, password, confirm_password,role} = req.body;
+         const new_user = await register_service(
+            {
+                first_name, 
+                last_name, 
+                email, 
+                password, 
+                confirm_password, 
+                role
+            });
          return res.status(201).json({message: "success", data: 
             {
                 id: new_user._id,
@@ -42,4 +51,12 @@ import { catchAsync } from "../utils/catchAsync.js";
         await reset_password_service({otp, new_password});
         return res.status(200).json({message: "password reset successfully"});
     })
+
+    //activate account
+    export const activate_account = catchAsync(async(req, res)=> {
+        const {id} = req.body;
+        // pass the raw id string to the service
+        await activate_account_service(id);
+        return res.status(200).json({message: "account activated successfully"});
+    })  
 

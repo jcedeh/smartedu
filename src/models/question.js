@@ -10,7 +10,16 @@ const optionSchema = new mongoose.Schema(
 
 const questionSchema = new mongoose.Schema(
   {
-    text: {
+    subject: {
+    type: String,
+    required: true
+  },
+
+    topic: {
+    type: String,
+    required: true
+  },
+    question: {
       type: String,
       required: true,
       trim: true,
@@ -26,14 +35,10 @@ const questionSchema = new mongoose.Schema(
         },
         message: "Question must have at least 2 options and exactly 1 correct answer"
       }
-    },
-    topic: {
-      type: String,
-      required: false,
-      trim: true
     }
   },
   { timestamps: true }
 );
 
-export default mongoose.model("Question", questionSchema);
+const Questions = mongoose.model('Question', questionSchema);
+export default Questions;

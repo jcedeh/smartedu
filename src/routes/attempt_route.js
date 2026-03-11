@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
 
-export default router;
+
 
 
 /**
@@ -70,4 +70,9 @@ export default router;
  *       500:
  *         description: Internal server error
  */
-router.post("/attempts", submit);
+router.post('/attempts', (req, res) => {
+    res.status(200).json({ message: "Quiz submitted successfully" });
+});
+
+
+export default router;

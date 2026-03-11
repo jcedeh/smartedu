@@ -1,7 +1,7 @@
 import Student from './student_profile.js';
 import mongoose from 'mongoose';
 
-const studentPerformanceSchema = new mongoose.Schema({
+const subjectPerformanceSchema = new mongoose.Schema({
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student',
@@ -23,13 +23,14 @@ const studentPerformanceSchema = new mongoose.Schema({
         type: Number,
         default: 0   //correct_answers / total_questions
     }
+
 })
 
 
-topicPerformanceSchema.index(
-  { studentId: 1, topic: 1 },
+subjectPerformanceSchema.index(
+  { studentId: 1, subject: 1 },
   { unique: true }
 );
 
-const studentPerformance = mongoose.model('StudentPerformance', studentPerformanceSchema);
-export default studentPerformance;
+const SubjectPerformance = mongoose.model('SubjectPerformance', SubjectPerformanceSchema);
+export default SubjectPerformance;

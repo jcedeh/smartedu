@@ -1,14 +1,17 @@
-import crashCard from "../models/crash_cards.js";
+export const create_crash_cards = async (
+  weakTopics,
+  studentId
+) => {
 
-export const create_crash_cards = async (weakTopics, studentId) => {
+  for (const topic of weakTopics) {
 
-  const cards = weakTopics.map(w => ({
-    studentId,
-    subject: w.subject,
-    topic: w.topic
-  }));
+    await CrashCard.create({
+      studentId,
+      subject: topic.subject,
+      topic: topic.topic,
+      message: `Quick revision recommended for ${topic.topic}`
+    });
 
-  await crashCard.insertMany(cards);
+  }
 
-  return cards;
 };

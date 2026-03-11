@@ -150,3 +150,17 @@ export const reset_password_service = async (data)=> {
         await user.save();
         return user;
     }
+
+    //activate user account
+export const activate_account_service = async (userId) => {
+    // accept either a raw id string or an object containing an id field
+    const idToFind = typeof userId === 'object' && userId !== null ? userId.id || userId._id : userId;
+
+    const user = await User.findById(idToFind);
+    if (!user) {
+        throw new AppError("user not found", 404);
+    }
+    user.isActive = true;
+    await user.save();
+    return user;
+}
