@@ -21,16 +21,20 @@ const studentSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Parent"
         },
-        completed_quizzes: [
-            {
-                type: mongoose.Schema.Types.ObjectId,   
-            }
-        ],
         mastered_topics: [
             {
                 type: String
             }
-        ]   
+        ],
+        facebook_id: {
+            type: String
+        },
+        instagram_id: {
+            type: String
+        },
+        twitter_id: {
+            type: String
+        }   
     },
     {
         timestamps: true,

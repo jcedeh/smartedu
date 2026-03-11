@@ -23,7 +23,7 @@ const options = {
       schemas: {
         RegisterUser: {
           type: "object",
-          required: ["first_name", "last_name", "email", "password", "confirm_password", "role"],
+          required: ["first_name", "last_name", "email", "password", "confirm_password", "date_of_birth", "role"],
           properties: {
             first_name: {
                 type: "string",
@@ -45,6 +45,11 @@ const options = {
               type: "string",
               example: "StrongPassword123"
             },  
+            date_of_birth: {
+                type: "string",
+                format: "date",
+                example: "2000-01-01"
+            },
             role: {
               type: "string",
               enum: ["student", "parent"],

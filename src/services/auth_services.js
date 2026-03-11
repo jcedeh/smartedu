@@ -10,9 +10,9 @@ import { sendMail } from "./nodemailer.js";
 dotenv.config();
 
 export const register_service = async (data)=> {
-    const {first_name, last_name, email, password, confirm_password, role} = data;
+    const {first_name, last_name, email, password, confirm_password, date_of_birth, role} = data;
     //validate input
-    if(!first_name || !last_name || !email || !password || !confirm_password || !role) {
+    if(!first_name || !last_name || !email || !password || !confirm_password || !date_of_birth || !role) {
         throw new AppError("all fields are required", 400);
     }
     //validate password and confirm password
@@ -35,11 +35,23 @@ export const register_service = async (data)=> {
             email: email,
             password: hashedPassword,
             confirm_password: hashedPassword,
+            date_of_birth: date_of_birth,
             role: role
         }
     );
-   
 
+    if(role === "student") {
+        await Student.create({
+            user_id: user._id,
+            email: email,
+            name: `${first_name} ${last_name}`,
+            date_of_birth: date_of_birth
+        });
+
+    } 
+    
+        
+         
     /** 
         //send email
         await sendMail({
