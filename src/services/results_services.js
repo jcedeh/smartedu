@@ -1,55 +1,55 @@
-export const generateSubjectResultSummary = (subject, attempt) => {
+export const generate_subject_result_summary = (subject, attempt) => {
 
-  let totalQuizzesTaken = attempt.length;
-  let totalTestsPassed = 0;
+  let total_quizzes_taken = attempt.length;
+  let total_tests_passed = 0;
 
-  let totalCorrect = 0;
-  let totalQuestions = 0;
+  let total_correct = 0;
+  let total_questions = 0;
 
   attempt.forEach(attempts => {
 
-    totalCorrect += attempts.correct;
-    totalQuestions += attempts.total;
+    total_correct += attempts.correct;
+    total_questions += attempts.total;
 
     const accuracy = (attempts.correct / attempts.total) * 100;
 
     // pass mark = 50
     if (accuracy >= 50) {
-      totalTestsPassed += 1;
+      total_tests_passed += 1;
     }
 
   });
 
-  const overallAccuracy = totalQuestions === 0
+  const overall_accuracy = total_questions === 0
     ? 0
-    : (totalCorrect / totalQuestions) * 100;
+    : (total_correct / total_questions) * 100;
 
-  let gradeRemark;
+  let grade_remark;
 
   switch (true) {
 
-    case overallAccuracy >= 90:
-      gradeRemark = "Excellent";
+    case overall_accuracy >= 90:
+      grade_remark = "Excellent";
       break;
 
-    case overallAccuracy >= 70:
-      gradeRemark = "Good";
+    case overall_accuracy >= 70:
+      grade_remark = "Good";
       break;
 
-    case overallAccuracy >= 50:
-      gradeRemark = "Fair";
+    case overall_accuracy >= 50:
+      grade_remark = "Fair";
       break;
 
     default:
-      gradeRemark = "Poor";
+      grade_remark = "Poor";
 
   }
 
   return {
     subject,
-    total_quizzes_taken: totalQuizzesTaken,
-    total_tests_passed: totalTestsPassed,
-    overall_accuracy: Number(overallAccuracy.toFixed(2)),
-    grade_remark: gradeRemark
+    total_quizzes_taken: total_quizzes_taken,
+    total_tests_passed: total_tests_passed,
+    overall_accuracy: Number(overall_accuracy.toFixed(2)),
+    grade_remark: grade_remark
   };
 };

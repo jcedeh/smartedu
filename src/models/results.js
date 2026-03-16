@@ -25,7 +25,7 @@ const resultSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    gradeRemarks: {
+    grade_remarks: {
         type: String,
         enum: [ 'Poor', 'Fair', 'Good', 'Excellent' ]
     }

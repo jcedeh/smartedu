@@ -9,16 +9,24 @@ router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
 
 
 
-
 /**
  * @swagger
- * /api/quiz/attempt:
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *
+ * /api/attempt:
  *   post:
- *     summary: Submit quiz answers
- *     description: Allows a student to submit answers for a quiz attempt.
- *     tags: [Quiz]
+ *     summary: Submit a quiz attempt
+ *     description: Authenticated students submit answers for a quiz attempt. The system scores the quiz and performs analytics.
+ *     tags:
+ *       - Quiz
  *     security:
  *       - bearerAuth: []
+ *
  *     requestBody:
  *       required: true
  *       content:
@@ -33,46 +41,68 @@ router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
  *             properties:
  *               student_id:
  *                 type: string
- *                 description: ID of the student attempting the quiz
- *                 example: "65fa91c4a72b9c23e4a1a111"
+ *                 description: Unique identifier of the student
+ *                 example: stu_1023
+ *
  *               quiz_id:
  *                 type: string
- *                 description: ID of the quiz being attempted
- *                 example: "65fa91c4a72b9c23e4a1a222"
+ *                 description: Unique identifier of the quiz
+ *                 example: quiz_3001
+ *
+ *               time_spent:
+ *                 type: integer
+ *                 description: Time spent completing the quiz in seconds
+ *                 example: 320
+ *
  *               answers:
  *                 type: array
  *                 description: List of answers submitted by the student
  *                 items:
  *                   type: object
  *                   required:
- *                     - questionId
- *                     - selectedOptionId
+ *                     - question_id
+ *                     - selected_answer
  *                   properties:
- *                     questionId:
+ *                     question_id:
  *                       type: string
- *                       description: ID of the question
- *                       example: "65fa91c4a72b9c23e4a1a333"
- *                     selectedOptionId:
+ *                       description: Unique identifier of the question
+ *                       example: q101
+ *
+ *                     selected_answer:
  *                       type: string
- *                       description: ID of the selected option
- *                       example: "65fa91c4a72b9c23e4a1a444"
- *               time_spent:
- *                 type: number
- *                 description: Total time spent on the quiz in seconds
- *                 example: 120
+ *                       description: Answer chosen by the student
+ *                       example: "3/4"
+ *
  *     responses:
  *       200:
  *         description: Quiz submitted successfully
- *       400:
- *         description: Invalid request data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Quiz attempt submitted successfully
+ *
+ *                 score:
+ *                   type: integer
+ *                   example: 8
+ *
+ *                 total_questions:
+ *                   type: integer
+ *                   example: 10
+ *
  *       401:
- *         description: Unauthorized - Token required
+ *         description: Unauthorized - JWT token missing or invalid
+ *
+ *       400:
+ *         description: Invalid request payload
+ *
  *       500:
  *         description: Internal server error
  */
-router.post('/attempts', (req, res) => {
-    res.status(200).json({ message: "Quiz submitted successfully" });
-});
+
 
 
 export default router;

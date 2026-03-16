@@ -24,12 +24,12 @@ export const register_service = async (data)=> {
         throw new AppError("password and confirm password do not match", 400);
     }
     //check if user exists
-    const existingUser = await User.findOne({email} ).session(session);
-    if(existingUser){
+    const existing_user = await User.findOne({email} ).session(session);
+    if(existing_user){
         throw new AppError("user already exist", 400)
     }
     //hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashed_password = await bcrypt.hash(password, 10);
 
     //create the user
     const user = await User.create([
@@ -37,8 +37,8 @@ export const register_service = async (data)=> {
             first_name: first_name,
             last_name: last_name,
             email: email,
-            password: hashedPassword,
-            confirm_password: hashedPassword,
+            password: hashed_password,
+            confirm_password: hashed_password,
             date_of_birth: date_of_birth,
             role: role
         }
@@ -46,14 +46,14 @@ export const register_service = async (data)=> {
 
 
     if(role === "student") {
-        const parentAccessCode = crypto.randomBytes(4).toString('hex'); // generate a unique access code for the parent
+        const parent_accessCode = crypto.randomBytes(4).toString('hex'); // generate a unique access code for the parent
           
         await Student.create([{
             user_id: user[0]._id,
             email: email,
             name: `${first_name} ${last_name}`,
             date_of_birth: date_of_birth,
-            parent_access_code: parentAccessCode
+            parent_access_code: parent_accessCode
         }], { session });
 
         await session.commitTransaction();
@@ -128,11 +128,11 @@ export const forget_password_service = async (data)=> {
             throw new AppError("user does not exist", 400);
         }
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const otpExpiry = Date.now() + 5 * 60 * 1000;
+        const otp_expiry = Date.now() + 5 * 60 * 1000;
 
         //update fields in the database
         user.otp = otp;
-        user.otpExpiry = otpExpiry;
+        user.otpExpiry = otp_expiry;
 
         await user.save();
           
@@ -164,31 +164,31 @@ export const reset_password_service = async (data)=> {
             throw new AppError("invalid otp", 400);
         }
         //checks if otp has expired
-        if(user.otpExpiry < Date.now()) {
+        if(user.otp_expiry < Date.now()) {
             throw new AppError("otp expired", 400);
         }
         //hash new password 
-        const hashedPassword = await bcrypt.hash(new_password, 10);
+        const hashed_password = await bcrypt.hash(new_password, 10);
 
         //update database fields
-        user.password = hashedPassword;
+        user.password = hashed_password;
         user.otp = null;
-        user.otpExpiry = null;
+        user.otp_expiry = null;
 
         await user.save();
         return user;
     }
 
     //activate user account
-export const activate_account_service = async (userId) => {
+export const activate_account_service = async (user_id) => {
     // accept either a raw id string or an object containing an id field
-    const idToFind = typeof userId === 'object' && userId !== null ? userId.id || userId._id : userId;
+    const id_to_find = typeof user_id  === 'object' && user_id !== null ? user_id.id || user_id._id : user_id;
 
-    const user = await User.findById(idToFind);
+    const user = await User.findById(id_to_find);
     if (!user) {
         throw new AppError("user not found", 404);
     }
-    user.isActive = true;
+    user.is_active = true;
     await user.save();
     return user;
 }

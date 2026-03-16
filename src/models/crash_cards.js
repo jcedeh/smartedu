@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const crashCardSchema = new mongoose.Schema({
 
-  studentId: {
+  student_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student"
   },
@@ -10,7 +10,7 @@ const crashCardSchema = new mongoose.Schema({
 
   topic: String,
 
-  triggeredBy: {
+  triggered_by: {
     type: String,
     default: "weakness_detection"
   },
@@ -21,5 +21,5 @@ const crashCardSchema = new mongoose.Schema({
   }
 
 });
-const crashCard = mongoose.model("CrashCard", crashCardSchema);
-export default crashCard;
+const CrashCard = mongoose.model("CrashCard", crashCardSchema);
+export default CrashCard;

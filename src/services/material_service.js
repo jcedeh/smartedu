@@ -1,6 +1,6 @@
 import learning_material from "../models/materials/learning_material.js";
 
-export const getLearningMaterials = async (subject, topic) => {
+export const get_learning_materials = async (subject, topic) => {
 
   const filter = {};
 

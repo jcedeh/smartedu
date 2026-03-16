@@ -18,20 +18,20 @@ export const update_streak = async (student_id)=> {
     const last = new Date(streak.last_activity_date);
     last.setHours(0, 0, 0, 0);
 
-    const diffDays = (today - last) / (1000 * 60 * 60 * 24);
-    if(diffDays === 1) {
+    const diff_days = (today - last) / (1000 * 60 * 60 * 24);
+    if(diff_days === 1) {
         //if last activity was yesterday, increment current streak
         streak.current_streak += 1;
     
     }
-    else if(diffDays > 1) {
+    else if(diff_days > 1) {
         //if last activity was more than 1 day ago, reset current streak
         streak.current_streak = 1;
     }   
     //update longest streak if current streak exceeds it
-        streak.longestStreak = Math.max(
-        streak.longestStreak,
-        streak.currentStreak
+        streak.longest_streak = Math.max(
+        streak.longest_streak,
+        streak.current_streak
     );
     //update last activity date
     streak.last_activity_date = today;

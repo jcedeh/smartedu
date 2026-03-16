@@ -41,7 +41,7 @@ export const delete_question = catchAsync(async(req, res)=> {
 
 //insert bulk questions controller
 export const bulk_insert_questions = catchAsync(async(req, res)=> {
-    const questionsArray = req.body;
-    const result = await question_service.bulk_insert_questions(questionsArray);
+    const questions_array = req.body;
+    const result = await question_service.bulk_insert_questions(questions_array);
     return res.status(201).json({message: "success", data: result});
 })

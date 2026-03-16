@@ -40,12 +40,12 @@ const userSchema = new mongoose.Schema(
             type: Date,
             required: true
         },
-        isActive: {
+        is_active: {
             type: Boolean,
-            default: false
+            default: true
         },
-        lastLoginDate: {
-            type:Date
+        last_login_date: {
+            type: Date
         },
         otp: Number
         

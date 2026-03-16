@@ -2,11 +2,11 @@ import learning_material from "../models/materials/learning_material.js";
 import Recommendation from "../models/recommendation.js";
 
 export const generate_recommendations = async (
-  weakTopics,
-  studentId
+  weak_topics,
+  student_id
 ) => {
 
-  for (const topic of weakTopics) {
+  for (const topic of weak_topics) {
 
     const materials = await learning_material.find({
       subject: topic.subject,

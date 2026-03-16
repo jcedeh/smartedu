@@ -5,7 +5,7 @@ import TopicPerformance from "../models/topic_performance.js";
 
 export const getDashboard_service = async (student_id) => {
 
-  const subjectPerformance = await SubjectPerformance.find({ studentId });
+  const subjectPerformance = await SubjectPerformance.find({ student_id });
 
   const weakTopics = await TopicPerformance.find({
     student_id,

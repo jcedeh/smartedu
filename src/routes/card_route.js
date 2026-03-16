@@ -1,4 +1,4 @@
-import { crash_card } from "../controllers/crashCard_controller.js";
+import { crash_card } from "../controllers/crash_card_controller.js";
 import express from 'express';
 import { roleAuthorization } from "../middlewares/role_authorization.js";
 import { auth_middleware } from "../middlewares/auth_middleware.js";

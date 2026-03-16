@@ -1,42 +1,42 @@
 import topicPerformance from "../models/topic_performance.js";
 
 export const update_topic_performance = async (
-  studentId,
+  student_id,
   subject,
   topic,
-  correctCount,
-  totalQuestions
+  correct_count,
+  total_questions
 ) => {
 
   const performance = await topicPerformance.findOne({
-    studentId,
+    student_id,
     subject,
     topic
   });
 
   if (!performance) {
 
-    const accuracy = (correctCount / totalQuestions) * 100;
+    const accuracy = (correct_count / total_questions) * 100;
 
     await topicPerformance.create({
-      studentId,
+      student_id,
       subject,
       topic,
-      correctAnswers: correctCount,
-      totalQuestions,
+      correct_answers: correct_count,
+      total_questions,
       accuracy,
-      isWeak: accuracy < 50
+      is_weak: accuracy < 50
     });
 
   } else {
 
-    performance.correctAnswers += correctCount;
-    performance.totalQuestions += totalQuestions;
+    performance.correct_answers += correct_count;
+    performance.total_questions += total_questions;
 
     performance.accuracy =
-      (performance.correctAnswers / performance.totalQuestions) * 100;
+      (performance.correct_answers / performance.total_questions) * 100;
 
-    performance.isWeak = performance.accuracy < 50;
+    performance.is_weak = performance.accuracy < 50;
 
     await performance.save();
 

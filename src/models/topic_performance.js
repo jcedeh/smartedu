@@ -8,10 +8,10 @@ const topicPerformanceSchema = new mongoose.Schema({
   },
   subject: String,
   topic: String,
-  correctAnswers: Number,
-  totalQuestions: Number,
+  correct_answers: Number,
+  total_questions: Number,
   accuracy: Number,
-  isWeak: Boolean
+  is_weak: Boolean
 });
 
 const TopicPerformance = mongoose.model('TopicPerformance', topicPerformanceSchema);

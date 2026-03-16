@@ -2,7 +2,7 @@ import Student from './student_profile.js';
 import mongoose from 'mongoose';
 
 const subjectPerformanceSchema = new mongoose.Schema({
-    studentId: {
+    student_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student',
         required: true
