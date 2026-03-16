@@ -10,7 +10,7 @@ router.get('/', auth_middleware, roleAuthorization('student'), material_controll
   
 
 /**
- * @swagger
+ * swagger
  * /api/materials:
  *   get:
  *     summary: Get learning materials

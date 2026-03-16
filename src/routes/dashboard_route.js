@@ -10,7 +10,7 @@ router.get('/', auth_middleware,  dashboard)
 
 
 /**
- * @swagger
+ * swagger
  * /api/dashboard:
  *   get:
  *     summary: Get student dashboard overview

@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', auth_middleware, roleAuthorization, weakness);
 
 /**
- * @swagger
+ * swagger
  * /api/weakness:
  *   get:
  *     summary: Get student weak areas
