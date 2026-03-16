@@ -1,5 +1,5 @@
 import Questions from "../src/models/question.js";
-import { mathQuestions } from "../src/data/math_questions.js";
+import { questions } from "../src/data/questions.js";
 import { connectDB } from "../src/config/db.js";
 
 const seedMathQuestions = async () => {
@@ -16,9 +16,9 @@ const seedMathQuestions = async () => {
     console.log('No existing text index to drop');
   }
 
-  await Questions.insertMany(mathQuestions);
+  await Questions.insertMany(questions);
 
-  console.log("50 Mathematics questions seeded");
+  console.log("50  questions seeded");
 
   process.exit();
 };

@@ -25,7 +25,7 @@ export const update_topic_performance = async (
       correctAnswers: correctCount,
       totalQuestions,
       accuracy,
-      isWeak: accuracy < 60
+      isWeak: accuracy < 50
     });
 
   } else {
@@ -36,7 +36,7 @@ export const update_topic_performance = async (
     performance.accuracy =
       (performance.correctAnswers / performance.totalQuestions) * 100;
 
-    performance.isWeak = performance.accuracy < 60;
+    performance.isWeak = performance.accuracy < 50;
 
     await performance.save();
 

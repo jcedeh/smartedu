@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema(
             enum: ['student', 'tutor', 'admin'],
             default: "student"
         },
+        date_of_birth: {
+            type: Date,
+            required: true
+        },
         isActive: {
             type: Boolean,
             default: false

@@ -17,9 +17,18 @@ const studentSchema = new mongoose.Schema(
         grade_level: {
             type: Number
         },
-        parent_id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Parent"
+       email: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        date_of_birth: {
+            type: Date,
+            required: true
+        },
+        parent_access_code: {
+            type: String,
+            unique: true
         },
         mastered_topics: [
             {
@@ -34,7 +43,10 @@ const studentSchema = new mongoose.Schema(
         },
         twitter_id: {
             type: String
-        }   
+        },
+        location: {
+            type: String
+        },  
     },
     {
         timestamps: true,

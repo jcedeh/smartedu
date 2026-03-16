@@ -5,11 +5,15 @@ import { AppError } from "../utils/AppError.js";
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { sendMail } from "./nodemailer.js";
 
 dotenv.config();
 
 export const register_service = async (data)=> {
+    const session = await User.startSession();
+    session.startTransaction();
+    
     const {first_name, last_name, email, password, confirm_password, date_of_birth, role} = data;
     //validate input
     if(!first_name || !last_name || !email || !password || !confirm_password || !date_of_birth || !role) {
@@ -20,7 +24,7 @@ export const register_service = async (data)=> {
         throw new AppError("password and confirm password do not match", 400);
     }
     //check if user exists
-    const existingUser = await User.findOne({email});
+    const existingUser = await User.findOne({email} ).session(session);
     if(existingUser){
         throw new AppError("user already exist", 400)
     }
@@ -28,7 +32,7 @@ export const register_service = async (data)=> {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     //create the user
-    const user = await User.create(
+    const user = await User.create([
         {
             first_name: first_name,
             last_name: last_name,
@@ -38,17 +42,29 @@ export const register_service = async (data)=> {
             date_of_birth: date_of_birth,
             role: role
         }
-    );
+    ], { session });
+
 
     if(role === "student") {
-        await Student.create({
-            user_id: user._id,
+        const parentAccessCode = crypto.randomBytes(4).toString('hex'); // generate a unique access code for the parent
+          
+        await Student.create([{
+            user_id: user[0]._id,
             email: email,
             name: `${first_name} ${last_name}`,
-            date_of_birth: date_of_birth
-        });
+            date_of_birth: date_of_birth,
+            parent_access_code: parentAccessCode
+        }], { session });
 
-    } 
+        await session.commitTransaction();
+        session.endSession();   
+
+    } else {
+        // Commit transaction for non-student roles as well
+        await session.commitTransaction();
+        session.endSession();
+    }
+
     
         
          
@@ -59,11 +75,11 @@ export const register_service = async (data)=> {
         subject: "Welcome on Board",
         html: `
             Welcome to Smart Edu
-            your user id is ${user._id}
+            your user id is ${user[0]._id}
             `,
         });
       */  
-    return user;
+    return user[0];
     }
 
 

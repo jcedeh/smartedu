@@ -1,44 +1,51 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
-const optionSchema = new mongoose.Schema(
-  {
-    text: { type: String, required: true, trim: true },
-    isCorrect: { type: Boolean, default: false }
+const questionSchema = new mongoose.Schema({
+
+  subject: {
+    type: String,
+    required: true,
+    enum: ["Mathematics", "English", "ICT"]
   },
-  { _id: true }
-);
 
-const questionSchema = new mongoose.Schema(
-  {
-    subject: {
+  topic: {
     type: String,
     required: true
   },
 
-    topic: {
+  difficulty: {
+    type: String,
+    enum: ["easy", "medium", "hard"],
+    default: "easy"
+  },
+
+  question: {
     type: String,
     required: true
   },
-    question: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true
-    },
-    options: {
-      type: [optionSchema],
-      validate: {
-        validator: (options) => {
-          if (!options || options.length < 2) return false;
-          const correctCount = options.filter(o => o.isCorrect).length;
-          return correctCount === 1;
-        },
-        message: "Question must have at least 2 options and exactly 1 correct answer"
-      }
+
+  options: {
+    type: [String],
+    required: true,
+    validate: {
+      validator: (arr) => arr.length === 4,
+      message: "Question must have exactly 4 options"
     }
   },
-  { timestamps: true }
-);
 
-const Questions = mongoose.model('Question', questionSchema);
-export default Questions;
+  correctAnswer: {
+    type: String,
+    required: true
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+
+})
+
+const Question = mongoose.model("Question", questionSchema);
+
+
+export default Question;
