@@ -1,11 +1,11 @@
-import { recommendations } from "../controllers/recommendation_controller.js";
+import {get_recommendations} from "../controllers/recommendation_controller.js";  
 import express from 'express'
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { roleAuthorization } from "../middlewares/role_authorization.js";
 
 const router = express.Router();
 
-router.get('/', auth_middleware, roleAuthorization('student'), recommendations);
+router.get('/', auth_middleware, roleAuthorization('student'), get_recommendations);
 
 /**
  * @swagger

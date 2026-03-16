@@ -11,6 +11,10 @@ import card_route from  './src/routes/card_route.js';
 import weakness_route from './src/routes/weakness_route.js'
 import recommendation_route from './src/routes/reccomendation_route.js'
 import quiz_route from './src/routes/quiz_route.js';
+import result_route from './src/routes/result_route.js';
+
+// Swagger configuration
+import swaggerJsdoc from 'swagger-jsdoc';     
 import cors from 'cors';
 
 const app  = express();
@@ -42,6 +46,7 @@ app.use('/api/cards', card_route);
 app.use('/api/weakness', weakness_route);
 app.use('/api/recommendations', recommendation_route);
 app.use('/api/quiz', quiz_route);
+app.use('/api/results', result_route);
 
 
 // Global error handling middleware

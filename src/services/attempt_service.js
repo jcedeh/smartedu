@@ -4,8 +4,9 @@ import Attempt from "../models/attempts.js";
 import { update_performance } from "./performance_service.js";
 import { update_streak } from "./streak_service.js";
 import { process_learning_outcome } from "./orchestration_service.js";
+import { generateSubjectResultSummary } from "./results_services.js";
 
-const pass_mark = 3;
+const pass_mark = 15;
 export const submit_attempt = async ({
   student_id,
   quiz_id,
@@ -74,6 +75,9 @@ if (existingAttempt) {
   
      //const studentId = attempt.studentId;
 
+    //generate result summary for the quiz attempt
+    await generateSubjectResultSummary(quiz_id, attempt);
+    // weakness, recommendation, mastery level, learning outcome processing
     await process_learning_outcome(student_id);
 
     //update performance record for the student
@@ -81,7 +85,7 @@ if (existingAttempt) {
     
 
     //update streak record for the student
-    await update_streak(student_id);
+    await update_streak(student_id) ;
 
     await session.commitTransaction();
     session.endSession();
