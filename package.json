@@ -44,6 +44,7 @@
     "lodash.once": "^4.1.1",
     "memory-pager": "^1.5.0",
     "minimatch": "^10.2.4",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^7.0.0",
     "mongodb-connection-string-url": "^7.0.1",
     "mpath": "^0.9.0",

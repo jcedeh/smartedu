@@ -92,7 +92,7 @@ export const login_service = async (data)=> {
     }
     //check if user exists
     const existing_user = await User.findOne({email});
-    if(!existing_user || !existing_user.isActive) {
+    if(!existing_user || !existing_user.is_active) {
         throw new AppError("email or password not valid", 401)
     }
     //validate password

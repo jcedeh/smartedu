@@ -8,6 +8,15 @@ const attemptSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Student"
         },
+        subject: {
+            type: String,
+            required: true,
+            enum: ["Mathematics", "English", "ICT"]
+        },
+        topic: {
+            type: String,
+            required: true
+        },
         quiz_id: {
             type: String,
             required: true
@@ -15,8 +24,8 @@ const attemptSchema = new mongoose.Schema(
         answers: [
             {
             questionId: mongoose.Schema.Types.ObjectId,
-            selectedOptionId: mongoose.Schema.Types.ObjectId,
-            isCorrect: Boolean
+            selected_answer: String,
+            is_correct: Boolean
             }
         ],
         score: {
@@ -38,6 +47,7 @@ const attemptSchema = new mongoose.Schema(
     }
 );  
 const Attempt = mongoose.model("Attempt", attemptSchema);
+
 attemptSchema.index(
   { student_id: 1, quiz_id: 1 },
   { unique: true }

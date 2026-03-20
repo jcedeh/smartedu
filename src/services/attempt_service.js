@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Question from "../models/question.js";
 import Attempt from "../models/attempts.js";
-import { update_performance } from "./performance_service.js";
+import { update_topic_performance } from "./topic_performance_service.js";
 import { update_streak } from "./streak_service.js";
 import { process_learning_outcome } from "./orchestration_service.js";
 import { create_crash_cards } from "./crash_card_service.js";
@@ -11,8 +11,10 @@ const pass_mark = 15;
 export const submit_attempt = async ({
   student_id,
   quiz_id,
+  subject,
+  topic,
   answers,
-  time_spent
+  time_taken
 }) => {
     const existing_attempt = await Attempt.findOne({
         student_id,
@@ -49,6 +51,7 @@ if (existing_attempt) {
     const is_correct = selected_answer?.is_correct === true;
 
     if (is_correct) correct_count++;
+    console.log(correct_count);
 
     evaluated_answers.push({
       question_id: question._id,
@@ -57,15 +60,17 @@ if (existing_attempt) {
     });
   }
 
-  const total = questions.length;
+  const total_questions = answers.length;
   const passed = correct_count >= pass_mark;
 
   // 3. Save attempt
   const attempt = await Attempt.create([{
     student_id,
     quiz_id,
+    subject,
+    topic,
     score: correct_count,
-    time_taken: time_spent,
+    time_taken: time_taken,
     answers: evaluated_answers,
     passed,
     submittedAt: new Date()
@@ -75,19 +80,25 @@ if (existing_attempt) {
 
 
     //generate result summary for the quiz attempt
-    await generate_subject_result_summary(quiz_id, attempt); 
+    await generate_subject_result_summary(student_id, subject, attempt[0]); 
     
     // weakness, recommendation, mastery level, learning outcome processing
     await process_learning_outcome(student_id);
 
     //update performance record for the student
-    await update_performance(student_id, attempt);
+    await update_topic_performance(
+        student_id,
+        subject,
+        topic,
+        correct_count,
+        total_questions
+    );
     
 
     //update streak record for the student
     await update_streak(student_id) ;
 
-    //create crash card
+    //create crash
     await create_crash_cards(student_id);
 
 
@@ -96,8 +107,10 @@ if (existing_attempt) {
 
   return {
     score: correct_count,
-    total,
+    subject,
+    topic,
+    total_questions,
     passed,
-    attempt_id: attempt._id
+    attempt_id: attempt[0]._id
   };
 };

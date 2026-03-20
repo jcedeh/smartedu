@@ -45,5 +45,5 @@ const materialSchema = new mongoose.Schema(
     }
 );      
 
-const learning_material = mongoose.model("Material", materialSchema);
+const learning_material = mongoose.model("learning_material", materialSchema);
 export default learning_material;

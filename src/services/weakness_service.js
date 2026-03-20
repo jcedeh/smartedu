@@ -8,5 +8,6 @@ export const detect_weak_topics = async (student_id) => {
   });
 
   return weak_topics;
+  
 
 };

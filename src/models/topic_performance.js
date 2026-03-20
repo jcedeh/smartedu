@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Student from "./student_profile.js";
 
 const topicPerformanceSchema = new mongoose.Schema({
-  studentId: {
+  student_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student"
   },

@@ -1,29 +1,45 @@
-import learning_material from "../models/materials/learning_material.js";
 import Recommendation from "../models/recommendation.js";
+import {detect_weak_topics } from "./weakness_service.js";
 
-export const generate_recommendations = async (
-  weak_topics,
-  student_id
-) => {
+export const generate_recommendations = async (student_id) => {
 
-  for (const topic of weak_topics) {
+  const weakTopics = await detect_weak_topics(student_id);
+  console.log(`weak for recomm ${weakTopics}`);
 
-    const materials = await learning_material.find({
-      subject: topic.subject,
-      topic: topic.topic
-    });
+  const recommendations = [];
 
-    for (const material of materials) {
+  for (const subjectData of weakTopics) {
+    const subject = subjectData.subject;
 
-      await Recommendation.create({
-        studentId,
-        subject: topic.subject,
-        topic: topic.topic,
-        materialId: material._id
+    for (const topicData of subjectData.topic) {
+      const accuracy = topicData.accuracy;
+
+      // Only weak topics
+      if (accuracy >= 50) continue;
+
+      let action = accuracy < 30 ? "Revise fundamentals" : "Practice more questions";
+
+      recommendations.push({
+        subject,
+        topic: topicData.topic,
+        action,
+        accuracy
       });
-
     }
-
   }
 
+  // Sort weakest first
+  recommendations.sort((a, b) => a.accuracy - b.accuracy);
+
+  // Limit results
+  const topRecommendations = recommendations.slice(0, 10);
+
+  // Save to DB (upsert)
+  await Recommendation.findOneAndUpdate(
+    { student_id },
+    { recommendations: topRecommendations },
+    { upsert: true, returnDocument: 'after'}
+  );
+
+  return topRecommendations;
 };
