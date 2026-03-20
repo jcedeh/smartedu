@@ -75,7 +75,7 @@ const options = {
 
         attempts: {
           type: "object",
-          required: ["student_id", "quiz_id", "answers", "time_spent"],
+          required: ["student_id", "quiz_id", "answers", "sibject", "topic", "time_taken"],
           properties: {
             student_id: {
               type: "string",
@@ -85,45 +85,41 @@ const options = {
               type: "string",
               example: "65f1a6b9a23b4c001f1c5678"
             },
+
+            subject: {
+              type: "string",
+              example: "Mathematics"
+            },
+
+            topic: {
+              type: "string",
+              example: "Number Bases"
+            },
+
             answers: {
               type: "array",
               items: {
                 type: "object",
                 properties: {
-                  questionId: {
+                  question_id: {
                     type: "string",
                     example: "65f1a6b9a23b4c001f1c9999"
                   },
-                  selectedOptionId: {
+                  selected_answer: {
                     type: "string",
                     example: "65f1a6b9a23b4c001f1c8888"
                   }
                 }
               }
             },
-            time_spent: {
+            time_taken: {
               type: "number",
               example: 120
             }
           }
         },    
 
-        AuthResponse: {
-          type: "object",
-          properties: {
-            token: {
-              type: "string",
-              example: "jwt.token.here"
-            },
-            user: {
-              type: "object",
-              properties: {
-                email: { type: "string" },
-                role: { type: "string" }
-              }
-            }
-          }
-        }
+        
       }
     }
   },

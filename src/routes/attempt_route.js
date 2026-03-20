@@ -36,8 +36,10 @@ router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
  *             required:
  *               - student_id
  *               - quiz_id
+ *               - subject
+ *               - topic
  *               - answers
- *               - time_spent
+ *               - time_taken
  *             properties:
  *               student_id:
  *                 type: string
@@ -48,8 +50,18 @@ router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
  *                 type: string
  *                 description: Unique identifier of the quiz
  *                 example: quiz_3001
+ * 
+ *                subject:
+ *                       type: string
+ *                       description: Subject tested on
+ *                       example: "Mathematics"
+ * 
+ *                  topic:
+ *                       type: string
+ *                       description: Topic tested on
+ *                       example: "Number Bases"
  *
- *               time_spent:
+ *               time_taken:
  *                 type: integer
  *                 description: Time spent completing the quiz in seconds
  *                 example: 320
