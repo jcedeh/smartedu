@@ -3,16 +3,19 @@ import Student from "./student_profile.js";
 
 const topicPerformanceSchema = new mongoose.Schema({
   student_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Student"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Student'
   },
   subject: String,
   topic: String,
-  correct_answers: Number,
-  total_questions: Number,
-  accuracy: Number,
-  is_weak: Boolean
+
+  total_attempts: { type: Number, default: 0 },
+  total_correct: { type: Number, default: 0 },
+  total_questions: { type: Number, default: 0 },
+
+  mastery_level: { type: Number, default: 0 }, // NEW
+  last_updated: { type: Date, default: Date.now }
 });
 
-const TopicPerformance = mongoose.model('TopicPerformance', topicPerformanceSchema);
+const TopicPerformance = mongoose.model('topicPerformance', topicPerformanceSchema)
 export default TopicPerformance;

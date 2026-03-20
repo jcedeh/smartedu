@@ -12,6 +12,10 @@ import weakness_route from './src/routes/weakness_route.js'
 import recommendation_route from './src/routes/reccomendation_route.js'
 import quiz_route from './src/routes/quiz_route.js';
 import result_route from './src/routes/result_route.js';
+import mastery_route from './src/routes/mastery_route.js';
+import performance_route from './src/routes/performance_route.js';
+import helmet from "helmet";
+
 
 
 // Swagger configuration
@@ -22,6 +26,46 @@ const app  = express();
 
 //include middleware 
 app.use(express.json());
+
+//security middleware
+// using a safe in-place sanitizer for Express 5 getter-only req.query
+const sanitizeObject = (obj) => {
+  if (!obj || typeof obj !== 'object') return;
+  Object.keys(obj).forEach((key) => {
+    // filter unsafe operator keys, preserve email dots and @ in values
+    if (key.startsWith('$') || key.includes('.')) {
+      delete obj[key];
+      return;
+    }
+
+    const value = obj[key];
+
+    if (typeof value === 'string') {
+      // keep email structure intact, only remove Mongo operators from strings
+      obj[key] = value.replace(/\$/g, '');
+    } else if (value && typeof value === 'object') {
+      sanitizeObject(value);
+    }
+  });
+};
+
+app.use((req, res, next) => {
+  sanitizeObject(req.body);
+  sanitizeObject(req.params);
+  sanitizeObject(req.query);
+  next();
+});
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  })
+); 
 
 // Swagger UI route
 app.use('/api-docs', swaggerUi.serve, swaggerUiSetup);
@@ -48,6 +92,8 @@ app.use('/api/weakness', weakness_route);
 app.use('/api/recommendations', recommendation_route);
 app.use('/api/quiz', quiz_route);
 app.use('/api/results', result_route);
+app.use('/api/mastery', mastery_route);
+app.use('/api/performance', performance_route);
 
 
 // Global error handling middleware

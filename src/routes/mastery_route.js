@@ -1,57 +1,54 @@
-import {get_recommendations} from "../controllers/recommendation_controller.js";  
-import express from 'express'
+import { get_mastery_controller } from "../controllers/mastery_controller.js";
+import express from 'express';
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { roleAuthorization } from "../middlewares/role_authorization.js";
 
 const router = express.Router();
 
-router.get('/', auth_middleware, roleAuthorization('student'), get_recommendations);
-
+router.get('/', auth_middleware, roleAuthorization('student'), get_mastery_controller);
 
 /**
  * @swagger
- * /api/recommendations:
+ * /api/mastery:
  *   get:
- *     summary: Get topic recommendations
- *     description: Returns personalized recommendations based on weak topics
- *     tags: [Recommendations]
+ *     summary: Get student mastery levels
+ *     description: Retrieve mastery levels for all subjects and topics for the authenticated student.
+ *     tags: [Mastery]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Recommendations fetched successfully
+ *         description: Successfully retrieved mastery data
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 status:
+ *                 message:
  *                   type: string
  *                   example: success
- *                 data:
+ *                 mastery:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
  *                       subject:
  *                         type: string
- *                         example: Math
+ *                         example: Mathematics
  *                       topic:
  *                         type: string
  *                         example: Algebra
- *                       accuracy:
+ *                       mastery_level:
  *                         type: number
- *                         example: 45
- *                       level:
+ *                         example: 65
+ *                       status:
  *                         type: string
- *                         enum: [very_weak, weak, improving]
- *                       action:
- *                         type: string
- *                         enum: [start_from_basics, practice_more, advance_practice]
+ *                         enum: [weak, average, strong]
+ *                         example: average
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized - Token missing or invalid
  *       500:
- *         description: Server error
+ *         description: Internal server error
  */
 
 export default router;

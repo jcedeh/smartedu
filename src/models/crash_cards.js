@@ -9,12 +9,9 @@ const crashCardSchema = new mongoose.Schema({
   subject: String,
 
   topic: String,
+  message: String,
 
-  triggered_by: {
-    type: String,
-    default: "weakness_detection"
-  },
-
+  
   createdAt: {
     type: Date,
     default: Date.now

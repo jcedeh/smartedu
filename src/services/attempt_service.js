@@ -6,6 +6,7 @@ import { update_streak } from "./streak_service.js";
 import { process_learning_outcome } from "./orchestration_service.js";
 import { create_crash_cards } from "./crash_card_service.js";
 import { generate_subject_result_summary } from "./results_services.js";
+import { update_mastery } from "./mastery.js";
 
 const pass_mark = 15;
 export const submit_attempt = async ({
@@ -84,6 +85,7 @@ if (existing_attempt) {
     
     // weakness, recommendation, mastery level, learning outcome processing
     await process_learning_outcome(student_id);
+    
 
     //update performance record for the student
     await update_topic_performance(
@@ -93,6 +95,9 @@ if (existing_attempt) {
         correct_count,
         total_questions
     );
+
+    //update mastery
+    await update_mastery(student_id, subject, topic, correct_count, total_questions)
     
 
     //update streak record for the student

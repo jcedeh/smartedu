@@ -1,10 +1,11 @@
 import { catchAsync } from "../utils/catchAsync.js";
-import Recommendation from "../models/recommendation.js";
+import { generate_recommendations } from "../services/recommendations.js";
+
 
 export const get_recommendations = catchAsync(async (req, res) => {
-    const student_id = req.user
-    const recommendations = await Recommendation.find({ student_id }).populate('material_id');
-    return res.status(200).json({ message: "success", recommendations });
+    const student_id = req.user.id
+    const recommendation = generate_recommendations(student_id);
+    res.status(200).json({message: 'success', data: recommendation});
 })
 
 

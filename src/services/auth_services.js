@@ -1,6 +1,5 @@
 import User from "../models/users.js";
 import Student from "../models/student_profile.js";
-import Parent from "../models/parent_profile.js";
 import { AppError } from "../utils/AppError.js";
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs'

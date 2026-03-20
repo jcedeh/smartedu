@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import User from './users.js';
-import Parent from './parent_profile.js';
+
 
 
 //student profile
@@ -30,11 +30,7 @@ const studentSchema = new mongoose.Schema(
             type: String,
             unique: true
         },
-        mastered_topics: [
-            {
-                type: String
-            }
-        ],
+        
         facebook_id: {
             type: String
         },

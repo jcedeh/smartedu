@@ -11,7 +11,7 @@ export const run_learning_engine = async (student_id) => {
 
   
 
-  await generate_recommendations(student_id);
+  const recommendations = await generate_recommendations(student_id);
   console.log(recommendations)
 
   await create_crash_cards(weak_topics, student_id);
