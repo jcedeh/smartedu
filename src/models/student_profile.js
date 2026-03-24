@@ -28,7 +28,8 @@ const studentSchema = new mongoose.Schema(
         },
         parent_access_code: {
             type: String,
-            unique: true
+            unique: true,
+            sparse: true
         },
         
         facebook_id: {

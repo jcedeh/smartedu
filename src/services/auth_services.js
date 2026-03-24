@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { sendMail } from "./nodemailer.js";
+import { sendEmail } from "../utils/sendgrid.js";
 
 dotenv.config();
 
@@ -51,8 +51,8 @@ export const register_service = async (data)=> {
             user_id: user[0]._id,
             email: email,
             name: `${first_name} ${last_name}`,
-            date_of_birth: date_of_birth,
-            parent_access_code: parent_accessCode
+            parent_access_code: parent_accessCode,
+            date_of_birth: date_of_birth
         }], { session });
 
         await session.commitTransaction();
@@ -67,17 +67,15 @@ export const register_service = async (data)=> {
     
         
          
-    /** 
+    
         //send email
-        await sendMail({
+        await sendEmail({
         to: email,
-        subject: "Welcome on Board",
-        html: `
-            Welcome to Smart Edu
-            your user id is ${user[0]._id}
-            `,
-        });
-      */  
+        subject: "Welcome to SmartEdu Platform 🎉",
+        text: `Hello ${first_name}, welcome!`,
+        html: `<h1>Hello ${first_name}</h1><p>Welcome to Smartedu platform!</p>`,
+    });
+        
     return user[0];
     }
 
@@ -136,15 +134,13 @@ export const forget_password_service = async (data)=> {
         await user.save();
           
         //send email
-      /*  await sendMail({
+     await sendEmail({
         to: email,
-        subject: "Reset Password",
-        html: `
-            <h3>OTP RESET PASSWORD</h3>
-            <p>your OTP is ${user.otp}</p>
-            `,
-        });
-        */
+        subject: "PASSWORD RESET",
+        text: `Here is your OTP ${user.otp}`,
+        html: `<h1>Here is your OTP ${user.otp}</h1><p>Use this for your password reset</p>`,
+    });
+        
 
         return otp;
         

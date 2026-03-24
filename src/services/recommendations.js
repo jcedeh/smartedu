@@ -1,33 +1,29 @@
-import { detect_weak_topics } from "./weakness_service.js";
-
 export const generate_recommendations = async (student_id) => {
 
-  const weak_topics = await detect_weak_topics(student_id);
+  const topics = await TopicPerformance.find({ student_id });
 
-  return weak_topics
-    .sort((a, b) => a.accuracy - b.accuracy)
-    .map(topic => {
+  const recommendations = [];
 
-      let level = "";
-      let action = "";
+  for (const topic of topics) {
 
-      if (topic.accuracy < 40) {
-        level = "very_weak";
-        action = "start_from_basics";
-      } else if (topic.accuracy < 60) {
-        level = "weak";
-        action = "practice_more";
-      } else {
-        level = "improving";
-        action = "advance_practice";
-      }
-
-      return {
+    if (topic.mastery_level < 40) {
+      recommendations.push({
         subject: topic.subject,
         topic: topic.topic,
-        accuracy: topic.accuracy,
-        level,
-        action
-      };
-    });
+        level: "high_priority",
+        action: "Revise fundamentals and retake quiz"
+      });
+    }
+
+    else if (topic.mastery_level < 70) {
+      recommendations.push({
+        subject: topic.subject,
+        topic: topic.topic,
+        level: "medium_priority",
+        action: "Practice more questions"
+      });
+    }
+  }
+
+  return recommendations;
 };

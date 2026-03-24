@@ -8,7 +8,6 @@ const router = express.Router();
 router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
 
 
-
 /**
  * @swagger
  * components:
@@ -50,16 +49,16 @@ router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
  *                 type: string
  *                 description: Unique identifier of the quiz
  *                 example: quiz_3001
- * 
- *                subject:
- *                       type: string
- *                       description: Subject tested on
- *                       example: "Mathematics"
- * 
- *                  topic:
- *                       type: string
- *                       description: Topic tested on
- *                       example: "Number Bases"
+ *
+ *               subject:
+ *                 type: string
+ *                 description: Subject tested on
+ *                 example: Mathematics
+ *
+ *               topic:
+ *                 type: string
+ *                 description: Topic tested on
+ *                 example: Number Bases
  *
  *               time_taken:
  *                 type: integer
@@ -114,7 +113,5 @@ router.post('/attempts', auth_middleware, roleAuthorization('student'), submit);
  *       500:
  *         description: Internal server error
  */
-
-
 
 export default router;
